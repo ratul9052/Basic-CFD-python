@@ -64,6 +64,9 @@ while t<tend:
     elif scheme=="C":
         s= "Central"
         unew[1:-1]=un[1:-1] -(c*dt/(2*dx))*(un[2:]-un[:-2])
+    else:
+        s= "Generalized Upwind"
+        unew[1:-1]=un[1:-1] -(dt/dx)*( (c-np.abs(c))*(un[2:]-un[1:-1]) + (c+np.abs(c))*(un[1:-1]-un[:-2]) )/2
 
     #apply periodic conditions
     unew[-1]=unew[2]
