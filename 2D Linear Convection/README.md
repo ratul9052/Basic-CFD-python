@@ -1,7 +1,8 @@
 ## 2D Linear Convection
-$
-  \frac{\partial u}{\partial t} - \ c_x  \frac{\partial u}{\partial x}- \ c_y \frac{\partial u}{\partial y} = 0
-$
+
+<p align="center">
+  <img src="equation.svg" alt="Equation">
+</p>
 
 The following results present simulations of 2D linear convection using the finite difference method. For the animated visualizations (GIFs), a forward-in-time discretization was applied in combination with the generalized upwind scheme for the spatial convection terms in both the x and y directions. The scheme was tested for various velocity directions, including purely horizontal, vertical, and diagonal cases such as $(c_x, c_y) = (1, 0), (-1, 0), (0, 1), (0, -1)$ and $(1, 1)$. Different initial conditions were used to assess wave propagation and numerical diffusion under various flow scenarios.
 
