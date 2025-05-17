@@ -14,15 +14,15 @@ dx=x[1]-x[0]
 print(f'dx= {dx}')
 
 
-nt=151
+nt=201
 tend=0.5
 dt=tend/(nt-1)
 
 
 
 #define initial condition
-# u0_gausian=lambda x,a,s: 1*np.exp(-(x-a)**2/(s*s))
-# u0=u0_gausian(x,1,0.25)
+u0_gausian=lambda x,a,s: 1*np.exp(-(x-a)**2/(s*s))
+u0=u0_gausian(x,1,0.25)
 
 #u0_sin=lambda x,f: np.sin(f*np.pi*x)
 #u0=u0_sin(x,0.5)
@@ -30,8 +30,8 @@ dt=tend/(nt-1)
 # u0=np.zeros_like(x)
 # u0[n//2]=1
 
-u0=np.zeros_like(x)
-u0[int(nx/4):int(nx/2)]=1
+# u0=np.zeros_like(x)
+# u0[int(nx/4):int(nx/2)]=1
 
 nu=0.125
 D=dt*nu/dx/dx
@@ -62,7 +62,7 @@ while t<tend:
     t+=dt
 
 
-# #plotting
+#plotting
 i=0
 for solution in sol[1:]:
      # output frequency for frames
@@ -74,20 +74,28 @@ plt.text(0.0,1.2,f'nu= {nu:.2f} dx={dx:.2f} dt={dt:.4f} D={D:.2f} \n Forward Tim
 plt.xlabel('x')
 plt.ylabel('u')
 
-#Animation
-#ims=[]
-# fig=plt.figure(figsize=[5,4], dpi=200)
-# plt.grid()
-# i=0
-# for solution in sol:
-#     if (i % 10==0):  # output frequency for frames
-#         im=plt.plot(x, solution, '-', color='b', markersize=2, animated=True)
-#         im0=plt.plot(x, u0, '-', color='r', animated=True)
-#         plt.ylim(-3, 1.1)
-#         ims.append(im + im0)
-#     i+=1
-# ani=animation.ArtistAnimation(fig, ims, interval=35, blit=True, repeat_delay=1000)
-# ani
+# #Animation
+# fig, ax = plt.subplots(figsize=(6, 4), dpi=200)
+
+# # Initial plot
+# line1, = ax.plot(x, sol[0], '-', color='b', markersize=2, label='Time-evolving solution')
+# line2, = ax.plot(x, u0, '-', color='r', label='Initial condition')
+
+# ax.set_xlabel("x")
+# ax.set_ylabel("u")
+# ax.set_title("1D Diffusion")
+# ax.set_ylim(0, 1.5)
+# ax.grid(True)
+# ax.legend()
+
+# def update(frame):
+#     line1.set_ydata(sol[frame])
+#     return line1,
+
+# ani = animation.FuncAnimation(fig, update,frames=range(0, len(sol), 1), interval=100)
+
+# # Save as GIF
+# ani.save("1D_Diffusion.gif", writer="pillow")
 
 
 plt.show()

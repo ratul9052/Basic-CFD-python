@@ -13,7 +13,7 @@ x=np.linspace(0,L,nx)
 dx=x[1]-x[0]
 print(f'dx= {dx}')
 
-nt=30
+nt=100
 dt=0.0333
 
 c=1.0 #velocity
@@ -34,7 +34,7 @@ u0=u0_gausian(x,1,0.25)
 # u0=np.ones_like(x)
 # u0[int(nx/5):int(2*nx/5)]=2
 
-plt.plot(x,u0,'-',color='r')
+# plt.plot(x,u0,'-',color='r')
 
 
 #declare a container to store the solution at each time step
@@ -86,19 +86,30 @@ plt.xlabel('x')
 plt.ylabel('u')
 
 # #Animation
-# ims=[]
-# fig=plt.figure(figsize=[5,4], dpi=200)
-# plt.grid()
-# i=0
-# for solution in sol:
-#     if (i % 10==0):  # output frequency for frames
-#         im=plt.plot(x, solution[1:-1], '-o', color='b', markersize=2, animated=True)
-#         im0=plt.plot(x, u0, '-', color='r', animated=True)
-#         plt.ylim(0, 2.1)
-#         ims.append(im + im0)
-#     i+=1
-# ani=animation.ArtistAnimation(fig, ims, interval=35, blit=True, repeat_delay=1000)
-# ani
+
+# fig, ax = plt.subplots(figsize=(6, 4), dpi=200)
+
+# # Initial plot
+# line1, = ax.plot(x, sol[0][1:-1], '-', color='b', markersize=2, label='Time-evolving solution')
+# line2, = ax.plot(x, u0, '-', color='r', label='Initial condition')
+
+# ax.set_xlabel("x")
+# ax.set_ylabel("u")
+# ax.set_title("1D Linear Convection")
+# ax.set_ylim(0, 1.5)
+# ax.grid(True)
+# ax.legend()
+
+# def update(frame):
+#     line1.set_ydata(sol[frame][1:-1])
+#     return line1,
+
+# ani = animation.FuncAnimation(fig, update,frames=range(0, len(sol), 1), interval=100)
+
+# # Save as GIF
+# ani.save("1D_Linear_Convection_final.gif", writer="pillow")
+
 
 
 plt.show()
+

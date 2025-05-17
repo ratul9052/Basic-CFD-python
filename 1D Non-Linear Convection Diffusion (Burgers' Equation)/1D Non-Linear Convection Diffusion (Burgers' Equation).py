@@ -8,14 +8,14 @@ import matplotlib.animation as animation
 
 
 #define the grid of spatial and temporal domain 
-nx=131 #number of grid points
-L=2.0*np.pi #length of the domain
+nx=401 #number of grid points
+L=2.0 #length of the domain
 x=np.linspace(0,L,nx)
 dx=x[1]-x[0]
 print(f'dx= {dx}')
 
-nt=351
-tend=0.5
+nt=1000
+tend=1
 dt=tend/(nt-1)
 
 nu=0.01
@@ -36,7 +36,8 @@ phi = lambda x,t: np.exp((-(x-4*t)**2)/(4*nu*(t+1))) + np.exp((-(x-4*t-2*np.pi)*
 dphi_dx = lambda x,t: -2*(x-4*t)/(4*nu*(t+1))*np.exp((-(x-4*t)**2)/(4*nu*(t+1))) - 2*(x-4*t-2*np.pi)/(4*nu*(t+1))*np.exp((-(x-4*t-2*np.pi)**2)/(4*nu*(t+1)))
 u_t = lambda x,t: -2*nu*dphi_dx(x,t)/phi(x,t) + 4
 
-plt.plot(x,u0,'-',color='r')
+
+# plt.plot(x,u0,'-',color='r')
 
 Co=u0.max()*dt/dx
 D=nu*dt/dx/dx
@@ -80,7 +81,7 @@ while t<tend:
     unew[-1]=unew[2]
     unew[0]=unew[-3]
     n_sol.append(unew)
-    a_sol.append(u_t(x,t))
+    # a_sol.append(u_t(x,t))
     t+=dt
 
 
@@ -109,24 +110,28 @@ plt.ylim(0.0,10)
 plt.legend()
 
 
-# # #Animation
-# ims=[]
-# fig=plt.figure(figsize=[5,5], dpi=200)
-# plt.plot([], [], '-', color='r', markersize=2,label="Exact")
-# plt.plot([],[], '-o',alpha=0.8, color='b',markersize=2,label="Numeriacal")
-# plt.text(0, 9, rf"1D Burgers' Equation $\nu$={nu:.3f}", fontsize=9)
-# plt.ylim(0,10)
+#Animation
 
+# fig, ax = plt.subplots(figsize=(6, 4), dpi=200)
 
-# for i in range(len(n_sol)):
-#     if (i % 10==0):  # output frequency for frames
-#         im=plt.plot(x, a_sol[i], '-', color='r', markersize=2, animated=True)
-#         im0=plt.plot(x,n_sol[i][1:-1], '-o',alpha=0.8, color='b',markersize=2, animated=True)
-#         plt.legend()
-#         ims.append(im + im0)
-#     i+=1
-# ani=animation.ArtistAnimation(fig, ims, interval=35, blit=True, repeat_delay=1000)
-# ani
-# ani.save(f"plots/BE_nu={nu:.3f}.gif", writer="pillow")
+# # Initial plot
+# line1, = ax.plot(x, n_sol[0][1:-1], '-', color='b', markersize=2, label='Time-evolving solution')
+# line2, = ax.plot(x, u0, '-', color='r', label='Initial condition')
+
+# ax.set_xlabel("x")
+# ax.set_ylabel("u")
+# ax.set_title("1D Non-Linear Convection Diffusion")
+# ax.set_ylim(0, 1.5)
+# ax.grid(True)
+# ax.legend()
+
+# def update(frame):
+#     line1.set_ydata(n_sol[frame][1:-1])
+#     return line1,
+
+# ani = animation.FuncAnimation(fig, update,frames=range(0, len(n_sol), 30), interval=1)
+
+# # Save as GIF
+# ani.save("1D_Non-Linear_Convection_Diffusion.gif", writer="pillow")
 
 plt.show()

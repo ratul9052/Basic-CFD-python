@@ -16,8 +16,8 @@ print(f'dx= {dx}')
 nt=70
 dt=0.01
 
-c=3.0 #velocity
-nu=0.05
+c=2.0 #velocity
+nu=0.01
 
 Co=c*dt/dx
 D=nu*dt/dx/dx
@@ -37,7 +37,7 @@ u0=u0_gausian(x,1,0.25)
 # u0=np.ones_like(x)
 # u0[int(nx/5):int(2*nx/5)]=2
 
-plt.plot(x,u0,'-',color='r')
+# plt.plot(x,u0,'-',color='r')
 
 
 #declare a container to store the solution at each time step
@@ -53,7 +53,7 @@ sol.append(u)
 t=0.0
 tend=nt*dt
 #time-stepping loop
-scheme=input("enter F:forward, B:backward, C:centrel=")
+scheme= "B" #input("enter F:forward, B:backward, C:centrel=")
 while t<tend:
     un=sol[-1]
     unew=np.zeros_like(u)
@@ -78,32 +78,40 @@ while t<tend:
     t+=dt
 
 ##plotting
-i=0
-for solution in sol[1:]:
-     # output frequency for frames
-    if (i % 5==0):  # output frequency for frames
-        plt.plot(x, solution[1:-1], '-',alpha=0.6)
-        plt.ylim(0, 1.5)
-    i+=1
+# i=0
+# for solution in sol[1:]:
+#      # output frequency for frames
+#     if (i % 5==0):  # output frequency for frames
+#         plt.plot(x, solution[1:-1], '-',alpha=0.6)
+#         plt.ylim(0, 1.5)
+#     i+=1
 
-plt.text(0.0,1.2,f'c= {c} dx={dx:.2f} dt={dt:.2f} Co={Co:.2f} D={D:.4f} \nConvection terms = {s} scheme \nDiffusion terms = Central scheme', fontsize='12')
-plt.xlabel('x')
-plt.ylabel('u')
+# plt.text(0.0,1.2,f'c= {c} dx={dx:.2f} dt={dt:.2f} Co={Co:.2f} D={D:.4f} \nConvection terms = {s} scheme \nDiffusion terms = Central scheme', fontsize='12')
+# plt.xlabel('x')
+# plt.ylabel('u')
 
 # #Animation
-# ims=[]
-# fig=plt.figure(figsize=[5,4], dpi=200)
-# plt.grid()
-# i=0
-# for solution in sol:
-#     if (i % 10==0):  # output frequency for frames
-#         im=plt.plot(x, solution[1:-1], '-o', color='b', markersize=2, animated=True)
-#         im0=plt.plot(x, u0, '-', color='r', animated=True)
-#         plt.ylim(0, 2.1)
-#         ims.append(im + im0)
-#     i+=1
-# ani=animation.ArtistAnimation(fig, ims, interval=35, blit=True, repeat_delay=1000)
-# ani
+fig, ax = plt.subplots(figsize=(6, 4), dpi=200)
+
+# Initial plot
+line1, = ax.plot(x, sol[0][1:-1], '-', color='b', markersize=2, label='Time-evolving solution')
+line2, = ax.plot(x, u0, '-', color='r', label='Initial condition')
+
+ax.set_xlabel("x")
+ax.set_ylabel("u")
+ax.set_title("1D Linear Convection Diffusion")
+ax.set_ylim(0, 1.5)
+ax.grid(True)
+ax.legend()
+
+def update(frame):
+    line1.set_ydata(sol[frame][1:-1])
+    return line1,
+
+ani = animation.FuncAnimation(fig, update,frames=range(0, len(sol), 1), interval=100)
+
+# Save as GIF
+ani.save("1D_Linear_Convection_Diffusion.gif", writer="pillow")
 
 
 plt.show()
