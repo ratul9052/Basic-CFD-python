@@ -148,7 +148,7 @@ This case simulates flow between two parallel plates under a constant pressure g
 Contour plots show the evolution of the flow toward a fully developed parabolic profile.The final velocity profile is compared against the analytical Poiseuille solution.
 
 <p align="center">
-  <img src="figure/channel_contour.png" height="250">
+  <img src="figure/channel_contour.png">
  <em>Figure 7: Velocity magnitude contour and horizontal velocity profile u/u_max at the channel centerline.</em>
 </p><br>
 
